@@ -1,0 +1,26 @@
+{
+  "name": "node-error-mailer",
+  "version": "0.0.1",
+  "description": "simple mailer that allows to send error messages to a given e-mailaddress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peerbolte/node-error-mailer.git"
+  },
+  "keywords": [
+    "email",
+    "error"
+  ],
+  "author": "Jeroen Peerbolte <jeroenpeerbolte@gmail.com> (https://github.com/peerbolte)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peerbolte/node-error-mailer/issues"
+  },
+  "homepage": "https://github.com/peerbolte/node-error-mailer#readme",
+  "dependencies": {
+    "nodemailer": "^2.3.0"
+  }
+}
