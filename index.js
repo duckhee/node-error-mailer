@@ -3,7 +3,6 @@ var nodemailer = require('nodemailer');
 exports = module.exports = {};
 
 var transporter;
-var smtpConfig;
 var mailOptions;
 
 /******************************************************
@@ -12,27 +11,10 @@ var mailOptions;
  * 
  ******************************************************/
 
-//  uses nodemailer to setup 
-//  example object:
-//  {
-//      host: 'smtp.yourdomain.com',
-//      port: 587,
-//      auth: {
-//          user: 'user@yourdomain.com',
-//          pass: 'password'
-//      }
-//  }
-function _setupSmtpTransporter(_smtpConfig) {
-    smtpConfig = _smtpConfig;
+function _setupSmtpTransporter(smtpConfig) {
     transporter = nodemailer.createTransport(smtpConfig);
 }
 
-// example mail options
-// var mailOptions = {
-//     fromName: error log name 
-//     fromEmail: user@yourdomain.com
-//     to: String or array 
-// };
 function _setMailOptions(options) {
 
     if (!options.fromEmail) throw new Error('no from e-mail specified');
@@ -55,10 +37,17 @@ function _setMailOptions(options) {
  * 
  ******************************************************/
 
+/**
+ * Sends message to the initiated e-mailaddress
+ * 
+ * @param {string} errorMessage The message that will be send
+ * @param {function} callback Optional callback 
+ */
+
 function send(errorMessage, callback) {
 
     if (!mailOptions) callback('no mailOptions set');
-    if (!transporter) callabck('no transporter set');
+    if (!transporter) callback('no transporter set');
 
     callback = callback || function () { };
   
@@ -79,6 +68,11 @@ function send(errorMessage, callback) {
 
 }
 
+/**
+ * Initiates the modudule
+ * 
+ * @param {object} options 
+ */
 function init(options) {
     _setupSmtpTransporter(options.smpt);
     _setMailOptions(options);

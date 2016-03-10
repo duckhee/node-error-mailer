@@ -36,10 +36,8 @@ the callback for the send method is optional:
     nodeErrorMailer.send('an error occured');
     
 
-## TODO 
-
-- Add throttle to max errors per time period
-
 ## Release History
 
 * 0.0.1 Initial Working Version
+* 0.0.2 Bug Fixing
+* 0.0.3 Code Cleanup & Commenting
