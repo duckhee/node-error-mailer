@@ -31,6 +31,10 @@ A small, simple module that allows you to send errors to an e-mail address using
         console.log(err, data);
     });
 
+the callback for the send method is optional:
+
+    nodeErrorMailer.send('an error occured');
+    
 
 ## TODO 
 

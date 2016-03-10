@@ -40,8 +40,7 @@ function _setMailOptions(options) {
 
     var fromName = options.fromName || "Node Error Mailer";
     var to = [].concat(options.toEmail);
-    console.log(to);
-
+    
     mailOptions = {
         from: fromName + ' <' + options.fromEmail + '>',
         to: to.join(","),
@@ -62,8 +61,7 @@ function send(errorMessage, callback) {
     if (!transporter) callabck('no transporter set');
 
     callback = callback || function () { };
-    console.log('sending error', mailOptions);
-
+  
     var options = {
         from: mailOptions.from,
         to: mailOptions.to,
@@ -71,14 +69,13 @@ function send(errorMessage, callback) {
         text: errorMessage,
         html: errorMessage
     }
-    send mail with defined transport object
+    
     transporter.sendMail(options, function (err, info) {
 
         if (err) return callback(err);
         return callback(err, info);
 
     });
-
 
 }
 
