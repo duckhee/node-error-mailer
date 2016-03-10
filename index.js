@@ -71,13 +71,13 @@ function send(errorMessage, callback) {
         text: errorMessage,
         html: errorMessage
     }
-    // send mail with defined transport object
-    // transporter.sendMail(options, function (err, info) {
+    send mail with defined transport object
+    transporter.sendMail(options, function (err, info) {
 
-    //     if (err) return callback(err);
-    //     return callback(err, info);
+        if (err) return callback(err);
+        return callback(err, info);
 
-    // });
+    });
 
 
 }
