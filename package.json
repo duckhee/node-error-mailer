@@ -1,6 +1,6 @@
 {
   "name": "node-error-mailer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "simple mailer that allows to send error messages to a given e-mailaddress",
   "main": "index.js",
   "scripts": {

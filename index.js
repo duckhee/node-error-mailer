@@ -43,7 +43,6 @@ function _setMailOptions(options) {
  * @param {string} errorMessage The message that will be send
  * @param {function} callback Optional callback 
  */
-
 function send(errorMessage, callback) {
 
     if (!mailOptions) callback('no mailOptions set');
