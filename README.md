@@ -9,7 +9,7 @@ A small, simple module that allows you to send errors to an e-mail address using
     
 ## Usage
 
-    var nodeErrorMailer = require ('./index.js');
+    var nodeErrorMailer = require ('node-error-mailer');
 
     var options = {
         fromEmail: 'from.user@yourdomain.com',
