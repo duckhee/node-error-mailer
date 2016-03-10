@@ -3,7 +3,11 @@ var nodemailer = require('nodemailer');
 exports = module.exports = {};
 
 var transporter;
-var mailOptions;
+var options;
+var lastSendTime;
+var errorMessages;
+var throttler;
+var sendCallback;
 
 /******************************************************
  * 
@@ -20,14 +24,58 @@ function _setMailOptions(options) {
     if (!options.fromEmail) throw new Error('no from e-mail specified');
     if (!options.toEmail) throw new Error('no toEmail specified');
 
+
+}
+
+function _throttle(fn, threshhold, scope) {
+    threshhold || (threshhold = 250);
+    var last,
+        deferTimer;
+    return function () {
+        var context = scope || this;
+
+        var now = +new Date,
+            args = arguments;
+        if (last && now < last + threshhold) {
+            // hold on to it
+            clearTimeout(deferTimer);
+            deferTimer = setTimeout(function () {
+                last = now;
+                fn.apply(context, args);
+            }, threshhold);
+        } else {
+            last = now;
+            fn.apply(context, args);
+            return true;
+        }
+    };
+}
+
+function _sendMail() {
+
     var fromName = options.fromName || "Node Error Mailer";
     var to = [].concat(options.toEmail);
-    
-    mailOptions = {
+
+    var subject = (errorMessages.length == 1) ? 'Error Notification for ' + options.appName : 'Error Notifications (' + errorMessages.length + ') for ' + options.appName
+    if (errorMessages.length > 1) {
+
+    }
+    var mailOptions = {
         from: fromName + ' <' + options.fromEmail + '>',
-        to: to.join(","),
-        subject: 'Error Notification for ' + options.appName
-    };
+        to: to.join(", "),
+        subject: subject,
+        text: errorMessages.join(","),
+        html: errorMessages.join(",")
+    }
+
+    transporter.sendMail(mailOptions, function (err, info) {
+
+        if (err) return sendCallback(err);
+        return sendCallback(err, info);
+
+    });
+    
+    errorMessages = [];
 
 }
 
@@ -44,27 +92,24 @@ function _setMailOptions(options) {
  * @param {function} callback Optional callback 
  */
 function send(errorMessage, callback) {
+    
+	//set public callback 
+    sendCallback = callback || function () { };
 
-    if (!mailOptions) callback('no mailOptions set');
+    if (!options) callback('no options set');
     if (!transporter) callback('no transporter set');
 
-    callback = callback || function () { };
-  
-    var options = {
-        from: mailOptions.from,
-        to: mailOptions.to,
-        subject: mailOptions.subject,
-        text: errorMessage,
-        html: errorMessage
-    }
+    if (errorMessages.length == 0) lastSendTime = new Date();
+    errorMessages.push(errorMessage);
     
-    transporter.sendMail(options, function (err, info) {
-
-        if (err) return callback(err);
-        return callback(err, info);
-
-    });
-
+    if(!options.throttleTime){
+        _sendMail(callback);
+    }else{
+        //if it's throttled, callback without error  
+        if(!throttler()){
+            return callback(null, 'throttling');    
+        }
+    }
 }
 
 /**
@@ -72,9 +117,16 @@ function send(errorMessage, callback) {
  * 
  * @param {object} options 
  */
-function init(options) {
+function init(_options) {
+    options = _options;
     _setupSmtpTransporter(options.smpt);
-    _setMailOptions(options);
+
+    errorMessages = [];
+    lastSendTime = 0;
+    
+    if(options.throttleTime){
+        throttler = _throttle(_sendMail, options.throttleTime);
+    }
 }
 
 exports.send = send;
