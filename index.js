@@ -119,7 +119,7 @@ function send(errorMessage, callback) {
  */
 function init(_options) {
     options = _options;
-    _setupSmtpTransporter(options.smpt);
+    _setupSmtpTransporter(options.smtp);
 
     errorMessages = [];
     lastSendTime = 0;

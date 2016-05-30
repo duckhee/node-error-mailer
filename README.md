@@ -1,7 +1,7 @@
 node-error-mailer
 =================
 
-A small, simple module that allows you to send errors to an e-mail address using smpt
+A small, simple module that allows you to send errors to an e-mail address using smtp
 
 ## Installation
 
@@ -16,7 +16,7 @@ A small, simple module that allows you to send errors to an e-mail address using
         toEmail: 'from.user@yourdomain.com',
         appName: 'Test App',
         throttleTime: 5000
-        smpt: {
+        smtp: {
             host: 'smtp.yourdomain.nu',
             port: 587,
             auth: {
@@ -44,3 +44,4 @@ throttleTime allows you to limit the e-mails send within a certain period.
 * 0.0.2 Bug Fixing
 * 0.0.3 Code Cleanup & Commenting
 * 0.0.4 Adds Throttling
+* 0.0.5 Typos
