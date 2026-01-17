@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/peerbolte/node-error-mailer#readme",
   "dependencies": {
-    "nodemailer": "^2.3.0"
+    "nodemailer": "^7.0.9"
   }
 }
